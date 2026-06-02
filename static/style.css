@@ -1,0 +1,238 @@
+:root {
+    --bg-color: #050505;
+    --hud-blue: #00d2ff;
+    --hud-green: #39ff14;
+    --hud-red: #ff003c;
+    --gold: #ffd700;
+    --dark-grey: #1a1a1a;
+    --text-color: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    overflow: hidden;
+}
+
+.hud-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--hud-blue);
+    margin: 10px;
+    background: radial-gradient(circle at center, #101010 0%, #050505 100%);
+    box-shadow: inset 0 0 50px rgba(0, 210, 255, 0.1);
+}
+
+/* Header Styling */
+header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--hud-blue);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--hud-blue);
+    letter-spacing: 2px;
+}
+
+.v3 {
+    font-size: 0.8rem;
+    color: var(--hud-red);
+    vertical-align: top;
+}
+
+.college-info {
+    font-size: 0.7rem;
+    color: var(--hud-blue);
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.system-status {
+    font-size: 0.9rem;
+    color: var(--hud-blue);
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--hud-green);
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Main Content Layout */
+main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.video-view,
+.log-panel {
+    min-height: 0;
+}
+
+.video-view {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-view img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.camera-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7rem;
+    color: var(--hud-blue);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+}
+
+/* Log Panel Styling */
+.log-panel {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(0, 210, 255, 0.3);
+}
+
+.panel-header {
+    background: var(--hud-blue);
+    color: black;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.log-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.log-entry {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 2px;
+}
+
+.timestamp {
+    color: #666;
+}
+
+.log-entry.alert {
+    color: var(--hud-green);
+}
+
+.log-entry.identity {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.log-entry.system {
+    color: var(--hud-blue);
+    font-style: italic;
+}
+
+.analytics {
+    height: 80px;
+    border-top: 1px solid var(--hud-blue);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 10px;
+    gap: 20px;
+}
+
+.stat {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.stat span {
+    color: var(--hud-blue);
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-top: 1px solid rgba(0, 210, 255, 0.5);
+    font-size: 0.7rem;
+    color: #555;
+}
+
+.scanline {
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0.1;
+    position: absolute;
+    bottom: 100%;
+    animation: scanline 6s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        bottom: 100%;
+    }
+
+    100% {
+        bottom: -100px;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-grey);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--hud-blue);
+}

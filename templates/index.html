@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI OBJECT DETECTION | COMMAND CENTER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="hud-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">REAL-TIME DETECTION <span class="v3">SCET V3</span></div>
+            <div class="college-info">Saraswathy College of Engineering and Technology</div>
+            <div class="system-status">
+                <div class="clock" id="clock">00:00:00</div>
+        </header>
+
+        <main>
+            <!-- Video Section -->
+            <section class="video-view">
+                <div class="camera-label">LPT-CAM-01 [LIVE]</div>
+                <img src="{{ url_for('video_feed') }}" alt="AI Feed">
+                <div class="scanline"></div>
+            </section>
+
+            <!-- Logs Section -->
+            <section class="log-panel">
+                <div class="panel-header">REAL-TIME TELEMETRY LOGS</div>
+                <div class="log-list" id="log-list">
+                    <div class="log-entry system">[SYSTEM] Initializing Web Interface...</div>
+                </div>
+                <div class="analytics">
+                    <div class="stat">CPU: <span id="cpu">0%</span></div>
+                    <div class="stat">MODEL: <span class="model-name">YOLOv8s</span></div>
+                    <div class="stat">LATENCY: <span id="latency">0ms</span></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-msg">AI-POWERED OBJECT TRACKING & HUMAN ANALYSIS SUITE</div>
+            <div class="controls">
+                <span>FPS LIMIT: UNLOCK</span>
+                <span>HUD SCALE: 1.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Clock Update
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // Fetch Logs
+        async function fetchLogs() {
+            try {
+                const response = await fetch('/get_logs');
+                const logs = await response.json();
+                const logList = document.getElementById('log-list');
+
+                logs.forEach(log => {
+                    const entry = document.createElement('div');
+                    entry.className = 'log-entry';
+                    if (log.message.includes('BEST:')) entry.className += ' alert';
+                    if (log.message.includes('PEOPLE:')) entry.className += ' identity';
+
+                    entry.innerHTML = `<span class="timestamp">[${log.timestamp}]</span> ${log.message}`;
+                    logList.prepend(entry);
+
+                    // Keep only last 50
+                    if (logList.children.length > 50) {
+                        logList.removeChild(logList.lastChild);
+                    }
+                });
+            } catch (e) { }
+        }
+        setInterval(fetchLogs, 500);
+
+        // Fake Stats
+        setInterval(() => {
+            document.getElementById('cpu').innerText = Math.floor(Math.random() * 15 + 10) + "%";
+            document.getElementById('latency').innerText = Math.floor(Math.random() * 5 + 12) + "ms";
+        }, 2000);
+    </script>
+</body>
+
+</html>
